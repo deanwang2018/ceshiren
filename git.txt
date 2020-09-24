@@ -1,0 +1,23 @@
+// 生成id_rsa 和 id_rsa.pub用来添加到github上
+ssh-keygen -t rsa -C"wd8352@163.com"
+
+// 添加到本地临时仓库，提交到代码仓，撤销修改，撤销临时仓修改，撤销commit仓修改
+git add git.txt
+git commit -m "git command initial"
+git checkout -- git.txt
+git reset HEAD
+git reset --hard HEAD^
+
+git log
+git status
+git diff
+
+git config -l
+git config --global user.name "username"
+git config --global user.email "xxx@163.com"
+
+git remote add origin https://github.com/deanwang2018/ceshiren.git
+git branch -M master
+git push -u origin master
+git push -u origin master -f
+git pull origin master
