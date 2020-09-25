@@ -15,9 +15,18 @@ git diff
 git config -l
 git config --global user.name "username"
 git config --global user.email "xxx@163.com"
+git config --global credential.helper store
 
 git remote add origin https://github.com/deanwang2018/ceshiren.git
 git branch -M master
 git push -u origin master
 git push -u origin master -f
 git pull origin master
+
+// 创建分支删除分支
+git branch dev
+git branch -d dev
+
+// 把dev的merge到master上
+git branch master
+git merge dev
