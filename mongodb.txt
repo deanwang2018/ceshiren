@@ -1,0 +1,79 @@
+mongod -dbpath xxx (一般xxx是 ./data/db，没有db目录可以手工创建)
+mongo
+
+show dbs
+use demo1
+db.demo1.insert({"name":"dean"})
+
+use demo1
+db.dropDatabase()
+
+db.createCollection("col1")
+show collections
+db.col1.drop()
+
+db.col1.insert({"name":"dean"})
+db.col1.find().pretty()
+
+document=({"title","MongoDB",
+"by":"dean",
+"tags":["mongodb","database","NoSQL"]})
+db.col1.insert(document)
+
+操作	格式			范例				RDBMS类似语句
+----------------------------------------------------------------------------------------------------
+等于	{<key>:<value>}		db.col1.find({"by":2}).pretty()		where by=2
+小于	{<key>:{$lt:<value>}}	db.col1.find({"by":{$lt:50}}).pretty()	where by<50
+小于等于	{<key>:{$lte:<value>}}	db.col1.find({"by":{$lte:50}}).pretty()	where by<=50
+大于	{<key>:{$gt:<value>}}	db.col1.find({"by":{$gt:50}}).pretty()	where by>50
+大于等于	{<key>:{$gte:<value>}}	db.col1.find({"by":{$gte:50}}).pretty()	where by>=50
+不等于	{<key>:{$ne:<value>}}	db.col1.find({"by":{$ne:50}}).pretty()	where by!=50
+
+db.col1.update(
+<query>,
+<update>,
+{
+upsert: <boolean>,
+multi: <boolean>,
+writeConcern: <document>
+}
+)
+upsert: 如果不存在update的记录，是否插入，默认false
+multi: 把按条件查出来多条记录全部更新，默认false
+writeConcern: 跑出异常级别
+
+update 是替换，没有修改的字段会消失
+
+修改文档：
+db.col1.update({"title":"MongoDB"},{"title":"MongoDB123"})
+修改多个文档：
+db.col1.update({"name":"dean"},
+{$set:{"name":"dean2"}},
+{multi:true})
+
+删除多个文档：
+db.col1.remove({"name":"dean"})
+删除1个文档：
+db.col1.remove({"name":"dean"},1)
+
+把值加上value
+{$inc:{field:value}}
+db.students.update({"name":"xiaohong"},{$inc:{age:5}})
+
+update成value
+{$set:{field:value}}
+db.students.update({"name":"xiaohong"},{$set:{age:10}})
+
+删除指定的字段(例子里是age，name还保留)
+{$set:{field:value}}
+db.students.update({"name":"xiaohong"},{$set:{age:10}})
+
+把value追加到field里，相当于增加个字段，注意：field只能是数组类型
+{$push:{field:value}}
+db.students.update({"name":"xiaohong"},{$push:{"ailas":"Michale"}})
+=
+db.students.update({"name":"xiaohong"},{$push:{"ailas":["Michale"]}})
+
+把字段重命令
+{$rename:{old_field_name:new_field_name}}
+db.students.update({"name":"xiaohong"},{$rename:{"name":"name2"}})

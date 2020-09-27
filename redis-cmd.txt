@@ -1,0 +1,5 @@
+String: SET key member/GET key
+Hash: HMSET key field1 "Hello" field2 "World"/HGET/HGETALL key field1
+List: lpush key member/lrange key 0 10
+Set: sadd key member/smembers key
+Sorted set: zadd key score member/ZRANGEBYSCORE key 0 1000
