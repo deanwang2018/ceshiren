@@ -1,0 +1,6 @@
+while true;do 
+  adb shell input swipe $(adb shell wm size | awk -F 'x| ' '{x=$3;y=$4;print x*0.5, y*0.8, x*0.5, y*0.2, 1000}')
+  adb shell "uiautomator dump && cat /sdcard/window_dump.xml" | 
+    sed 's#><#>|<#g' |  
+    awk -F \" 'BEGIN{RS="|"}/id\/e3x/{printf $4": "}/id\/b_e/{print $4}'
+done
